@@ -1,1 +1,14 @@
 learn using text
+
+catkin_make --only general_task_control
+开启三个节点:
+rosrun general_task_control general_task_control
+rosrun general_task_control send_task_data
+roscore
+
+使用roslaunch直接进行:
+roslaunch general_task_control innner_test.launch
+
+vim task_data.json  里面有taskID
+
+ roscd general_task_control/
