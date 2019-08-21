@@ -18,3 +18,6 @@ typedef struct {
 RS485半双工:总线可以挂载多个设备, 主要采用一问一答的形式.
 
 RS232全双工的方式.
+
+stm32句柄和HAL库
+https://blog.csdn.net/weixin_43186792/article/details/88759321
