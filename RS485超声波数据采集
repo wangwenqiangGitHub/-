@@ -1,0 +1,10 @@
+spi串口数据组包:
+typedef struct {
+	uint16_t  max;			//最大数据长度
+	uint16_t  len;			//当前数据长度
+	uint16_t  buf_cnts;		//缓存个数
+	uint16_t  buf_index;	//多个缓存中的当前使用的缓存索引号
+	uint8_t*  data;			//数据
+} serial_buffer_t;
+
+
