@@ -27,3 +27,71 @@ KS106使用串口与主机通信时, 自动响应主机的控制指令.指令为
 串口地址(0xe8)--->延时20~100us---->寄存器(0x20)----->延时20~100us---->探测指令(就是超声波探头)(0x30)---->通过串口接收KS106高八位字节------>接收KS106低八位字节
 
 源码解析:
+typedef struct {
+	uint16_t left_front;
+	uint16_t right_front;
+
+	uint16_t leftside_front;
+	uint16_t rightside_front;
+
+	uint16_t leftside_rear;
+	uint16_t rightside_rear;
+
+	uint16_t left_rear;
+	uint16_t right_rear;
+} SonarData_t;
+
+uint8_t sonar_rsv1[2]={0,0};
+uint8_t sonar_rsv2[2]={0,0};
+uint8_t sonar_rsv3[2]={0,0};
+uint8_t sonar_rsv4[2]={0,0};
+static uint16_t sonar_expr(uint8_t revc[])
+{
+	uint16_t result;
+	uint8_t temp;
+	temp = revc[0];
+	revc[0] = revc[1];
+	revc[1] = temp;
+	result=*((uint16_t *)revc);
+	return result;
+}
+
+static void sonar_thread_entry(void *parameter)
+{
+
+	uint8_t cmd1[3]={0xe8,0x02,0x34};
+	uint8_t cmd2[3]={0xe8,0x02,0x3c};
+	uint8_t cmd3[3]={0xe8,0x02,0x44};
+	uint8_t cmd4[3]={0xe8,0x02,0x4c};
+
+	while (1)
+	{
+		RS485_send(cmd1, 3, sonar_rsv1,2);
+		rt_thread_mdelay(40);
+		sona_data.left_front=sonar_expr(sonar_rsv1);
+		
+		RS485_send(cmd2, 3, sonar_rsv2,2);
+		rt_thread_mdelay(40);
+		sona_data.right_front=sonar_expr(sonar_rsv2);
+
+		RS485_send(cmd3, 3, sonar_rsv3,2);
+		rt_thread_mdelay(40);
+		sona_data.leftside_front=sonar_expr(sonar_rsv3);
+
+		RS485_send(cmd4, 3, sonar_rsv4,2);
+		rt_thread_mdelay(40);
+		sona_data.rightside_front=sonar_expr(sonar_rsv4);
+		
+		tx2_data_send(T_SONAR,sizeof(SonarData_t),(uint8_t*)&sona_data);
+
+		//rt_kprintf("sonar data=%d",datash);
+	}
+}
+
+void RS485_send(uint8_t *send_buf,uint8_t send_buff_len, uint8_t *rec_buf, uint8_t rec_buff_len)
+{
+	HAL_UART_Receive_IT(&UartHandle6, rec_buf, rec_buff_len);
+	HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_SET);//tx model	
+	HAL_UART_Transmit(&UartHandle6, send_buf, send_buff_len, TX_TIMEOUT);	
+	HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_RESET);//rx model	
+}
