@@ -1,0 +1,8 @@
+nvidia TX2上面命令行连接wifi:
+cd /etc/network/
+su
+cat interfaces
+vim interfaces
+
+sync
+reboot
