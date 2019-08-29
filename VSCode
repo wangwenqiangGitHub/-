@@ -1,4 +1,5 @@
 VScode:
+首先添加环境变量,可以实现命令行输入code,启动vscode.
 插件：
 ROS
 ROS(deprecated)
@@ -6,6 +7,6 @@ CMake
 CMake Integration
 CMake Tools
 
-Ctrl+shift+p选择build，debug调试
+Ctrl+shift+p选择build------camke.outline.build,可以看到输出100%后,可以实现debug调试
 在lauch.json文件中修改buid下的包名字，可执行文件的名字
 "program": "${workspaceFolder}/build/devel/lib/action_client/action_client",
