@@ -6,3 +6,8 @@ sudo apt-get install python-bloom fakeroot
 roscd test_msgs  切换到当前包下
 bloom-generate rosdebian --os-name ubuntu --ros-distro kinetic
 fakeroot debian/rules binary
+
+win10的WSL下:
+bloom-generate rosdebian --os-name ubuntu --ros-distro melodic
+fakeroot debian/rules binary运行这个命令失败:
+cp -f /usr/bin/fakeroot-tcp /usr/bin/fakeroot
