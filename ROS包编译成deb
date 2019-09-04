@@ -6,6 +6,9 @@ sudo apt-get install python-bloom fakeroot
 roscd test_msgs  切换到当前包下
 bloom-generate rosdebian --os-name ubuntu --ros-distro kinetic
 fakeroot debian/rules binary
+sudo dpkg -i ~/catkin_ws/src/test_msgs/ros-kinetic-test-msgs_0.0.0-0xenial_amd64.deb
+dpkg -r 卸载。
+dpkg -P 彻底卸载，包括配置文件等。
 
 win10的WSL下:
 bloom-generate rosdebian --os-name ubuntu --ros-distro melodic
