@@ -1,0 +1,8 @@
+https://blog.csdn.net/u011118482/article/details/83244285
+
+在ubuntu虚拟机下:
+sudo apt-get install python-bloom fakeroot
+
+roscd test_msgs  切换到当前包下
+bloom-generate rosdebian --os-name ubuntu --ros-distro kinetic
+fakeroot debian/rules binary
