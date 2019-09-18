@@ -1,1 +1,6 @@
 https://www.cnblogs.com/dpf-learn/p/7783314.html
+
+linux开机执行的顺序:
+找到rcs.d/;先执行这个文件
+再执行rc0.d---到---rc6.d这七个文件
+然后执行rc.local在rc.local中执行后台运行的程序
