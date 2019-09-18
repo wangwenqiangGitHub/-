@@ -1,0 +1,6 @@
+1 从nvidia机器上复制文件, 首先两个机器处于同一网段, 可以ping通
+  scp -r nvidia@192.168.1.110:/opt/ros/kinetic /home/kingwq/tx2_sysroot/opt/ros/
+2 挂载自己的电脑虚拟机在tx2上
+  sudo mount 192.168.1.155:/home/kingwq /mnt
+  ls /mnt
+3 vs连接到自己的虚拟机, 自己的虚拟机需要是ssh sever安装
