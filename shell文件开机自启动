@@ -1,0 +1,58 @@
+vim ~.bashrc下面添加命令:
+sh /nvidia/home/.../statr.sh
+
+
+
+#!/bin/bash
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch pepperl_fuchs_r2000 r2000.launch;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch laser_filters laser_filters.launch;read"
+sleep 5
+
+#gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun imu imu_node;read"
+#sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch laser_scan_matcher demo.launch;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roscd my_localization/maps/;rosrun map_server map_server map.yaml;read"
+sleep 5
+
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch my_localization my_localization.launch;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun floortile_paving_agv floortile_paving_agv;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch paving_chassis start.launch;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;roslaunch agv_task_control start.launch;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/#setup.bash;roscd send_task_data;rosrun send_task_data send_task_data;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun modbus_demo modbus_client _backend:=RTU;read"
+sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun spi_demo spi_demo;read"
+sleep 2
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun serialport serialport_node;read"
+sleep 2
+
+#gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;/home/nvidia/sue/11-code/02-floorTile/camera3-FloorTile-TX2-Debug/FloorTile;read"
+#sleep 5
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun move_arm_control move_arm_control;read"
+sleep 2
+
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rosrun controller_server controller_server_node;read"
+sleep 2
+gnome-terminal -x bash -c "source /opt/ros/kinetic/setup.bash;source /home/nvidia/catkin_ws/devel/setup.bash;rviz;read"
+sleep 2
+rostopic pub -v -1 /ros_to_modbus agv_task_control/Modbus "{cmd: 0x05,addr: 0x301,num: 1,data:[0xffff]}" 
