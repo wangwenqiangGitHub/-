@@ -1,2 +1,12 @@
 https://www.linuxidc.com/Linux/2013-02/79572.htm
 https://blog.csdn.net/qq_36237672/article/details/84881023
+
+调了一天:如果得出log文件大于1M,就重命名log为log1,
+file_log="/home/nvidia/.ros/log"
+file_kb=`du -sh -m ${file_log}|awk '{print $1}'`
+if [ $file_kb -gt $((1*1)) ];then
+     mkdir -p /home/nvidia/.ros/log3
+     mv /home/nvidia/.ros/log/ /home/nvidia/.ros/log1/
+     mkdir -p /home/nvidia/.ros/log
+
+fi
