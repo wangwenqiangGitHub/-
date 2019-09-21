@@ -10,3 +10,5 @@ if [ $file_kb -gt $((1*1)) ];then
      mkdir -p /home/nvidia/.ros/log
 
 fi
+
+https://blog.csdn.net/qq_18312025/article/details/78278989
