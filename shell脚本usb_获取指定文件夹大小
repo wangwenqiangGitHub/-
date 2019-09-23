@@ -12,3 +12,8 @@ if [ $file_kb -gt $((1*1)) ];then
 fi
 
 https://blog.csdn.net/qq_18312025/article/details/78278989
+
+ubuntu下U盘识别命令:
+u盘以及硬盘设备自动挂载的
+输入命令: df 查看挂载的U盘
+使用完u盘后, umount 掉U盘
