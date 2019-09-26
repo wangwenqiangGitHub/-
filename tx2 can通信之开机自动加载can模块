@@ -1,2 +1,5 @@
 tx2 can通信之开机自动加载can模块：
 https://blog.csdn.net/qq_33635623/article/details/89944852
+ifconfig 可以查看can是否挂载成功
+ ip -details link show can0  #检查can口状态
+ip -details link show can1
