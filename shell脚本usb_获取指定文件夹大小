@@ -17,3 +17,18 @@ ubuntu下U盘识别命令:
 u盘以及硬盘设备自动挂载的
 输入命令: df 查看挂载的U盘
 使用完u盘后, umount 掉U盘
+
+
+大于一定大小的文件夹清除文件
+#! /bin/bash
+file_log="/home/nvidia/.ros/log"
+file_kb=`du -sh -m ${file_log}|awk '{print $1}'`
+echo "ros_log:$file_kb"
+if [ $file_kb -gt $((1024*1)) ];then
+     rm -rf /home/nvidia/.ros/logold
+     mv /home/nvidia/.ros/log /home/nvidia/.ros/logold
+     mkdir -p /home/nvidia/.ros/log
+fi
+
+usb拷贝文件
+cp /home/nvidia/tools/start.sh  /media/nvidia/KINGWQ/usbtest/start_$i.sh
