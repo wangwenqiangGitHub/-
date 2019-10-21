@@ -11,6 +11,8 @@
 假设底盘为双舵轮底盘，电机驱动节点为CANID1234，将这4个电机接入CAN总线， 执行candump can0，再启动终端输入，cansend can0 000#8100
 观察candump终端是否有4个电机的报文返回，若没有需检测硬件连接。
 
+$dmesg
+
 3.编译lib库
 lib目录下
 find  .  | xargs   touch
