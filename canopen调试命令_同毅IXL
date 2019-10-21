@@ -43,3 +43,73 @@ speed:
 position_angle: [0000,0000]
 real_electricity:
 - 0"
+
+8.配置系统的开机启动文件分为：桌面和本地
+
+系统设置开机桌面自启动：
+cd ~/.config/autostart
+cat startup.sh.desktop
+[Desktop Entry]
+Type=Application
+Exec=/home/nvidia/script/startup.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=false
+Name[en_US]=start
+Name=start
+Comment[en_US]=auto start
+Comment=auto start
+
+cd /ect/rc.local中的文件：script/start.sh   置为true
+
+本地启动：can在这里面启动
+cd /etc/
+cat rc.local
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+touch /tmp/jetpack.log
+echo "starting script to send ip to host" >> /tmp/jetpack.log
+/home/nvidia/report_ip_to_host.sh &
+echo "started script to send ip to host" >> /tmp/jetpack.log
+
+#chmod 0666 /proc/spirxtx_mem
+/home/nvidia/tools/can.sh
+
+#modprobe can        
+#modprobe can-raw    
+#modprobe can-bcm
+#modprobe can-gw  
+#modprobe can_dev
+#modprobe mttcan
+#
+#sudo ip link set can0 type can bitrate 500000
+#sudo ip link set up can0
+#sudo ip link set can1 type can bitrate 500000
+#sudo ip link set up can1
+
+
+text=`grep "ssid=tx2-" /etc/hostapd/hostapd.conf`
+macaddr=`ifconfig | grep wlan0 | awk '{print $5}' | awk -F: '{print $1 $2 $3 $4 $5 $6}'`
+if [ "$text" != "ssid=tx2-$macaddr" ];then
+sed -i "s/$text/ssid=tx2-$macaddr/g" /etc/hostapd/hostapd.conf 
+fi
+
+/etc/init.d/dnsmasq restart
+
+iptables -t nat -A POSTROUTING -s 192.168.8.0/24 ! -d 192.168.8.0/24  -j MASQUERADE
+exit 0
+
+步科电机：
+canopen分析仪测试，连接发现500K波特率连接不上，1000K可以连接，
+通过网口连接可以在canopen分析仪上位机软件上输入601 602 603.。。。。如果can通讯没有问题，会返回值580 581。。。可以检测can通信是否有问题
