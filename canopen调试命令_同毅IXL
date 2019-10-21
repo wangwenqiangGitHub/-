@@ -7,8 +7,10 @@
 中断电阻的拨码开关最后一个要开启.
 
 2.查看can的ID好号状态:
-cansend can0 000#8100
-candump can0
+
+假设底盘为双舵轮底盘，电机驱动节点为CANID1234，将这4个电机接入CAN总线， 执行candump can0，再启动终端输入，cansend can0 000#8100
+观察candump终端是否有4个电机的报文返回，若没有需检测硬件连接。
+
 3.编译lib库
 lib目录下
 find  .  | xargs   touch
@@ -110,6 +112,10 @@ fi
 iptables -t nat -A POSTROUTING -s 192.168.8.0/24 ! -d 192.168.8.0/24  -j MASQUERADE
 exit 0
 
+问题排查
 步科电机：
 canopen分析仪测试，连接发现500K波特率连接不上，1000K可以连接，
 通过网口连接可以在canopen分析仪上位机软件上输入601 602 603.。。。。如果can通讯没有问题，会返回值580 581。。。可以检测can通信是否有问题
+
+查看/motor_ctrl 关于base_motion_control下发节点的问题
+查看/cmd_ctrl 遥控节点的问题
