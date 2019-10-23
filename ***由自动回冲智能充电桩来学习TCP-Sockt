@@ -31,3 +31,5 @@ epoll_wait(epollfd,...)等待直到注册的事件发生
 它是采用轮询来处理的，轮询的fd数目越多，自然耗时越多。并且在linux/posix_types.h头文件中有这样的声明。
 #define    _FD_SETSIZE 1024
 表示 select最多同时监听1024个fd，当然，可以通过修改头文件再重新编译内核来扩大这个数目
+
+https://www.cnblogs.com/yuxingfirst/archive/2013/03/08/2950281.html
