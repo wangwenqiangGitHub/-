@@ -18,6 +18,12 @@ select()函数; https://www.cnblogs.com/gangzilife/p/9766292.html
       继续执行，所以效率较高）方式工作的程序，它能够监视我们需要监视的文件描述符的变化情况读写或
       是异常。
  
+ 
+ 而通常，非阻塞的connect 函数与 select 函数配合使用：在一个TCP套接口被设置为非阻塞之后调用connect，connect （函数本身返回-1）会立即返回
+ EINPROGRESS或EWOULDBLOCK错误，表示连接操作正在进行中，但是仍未完成；同时TCP的三路握手操作继续进行；在这之后，我们可以调用select来检查这
+ 个链接是否建立成功。若建立连接成功，select的结果中该描述符可写；若失败，则可写可读，此时可以使用getsockopt获取错误信息。
+ https://blog.csdn.net/heli200482128/article/details/72622959
+ 
  读取TCP传输的数据采用epoll https://blog.csdn.net/wm_1991/article/details/49226117
  
 一个流可以看做是文件，socket,pipe等可以进行I/O操作的内核对象，不管是文件，套接字，管道都可以看作流；对于I/O的操作，可以通过read,从流中读入数据，通过write，
