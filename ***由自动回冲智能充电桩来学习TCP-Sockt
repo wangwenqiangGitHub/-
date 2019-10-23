@@ -24,6 +24,18 @@ select()函数; https://www.cnblogs.com/gangzilife/p/9766292.html
  个链接是否建立成功。若建立连接成功，select的结果中该描述符可写；若失败，则可写可读，此时可以使用getsockopt获取错误信息。
  https://blog.csdn.net/heli200482128/article/details/72622959
  
+ 处理非阻塞connect的步骤（重点）：
+1. 创建socket，返回套接口描述符；
+2. 调用fcntl 把套接口描述符设置成非阻塞；
+3. 调用connect 开始建立连接；
+4. 判断连接是否成功建立。
+判断连接是否成功建立：
+A. 如果connect 返回0，表示连接成功（服务器和客户端在同一台机器上时就有可能发生这种情况）；
+B. 调用select 来等待连接建立成功完成；
+如果select 返回0，则表示建立连接超时。我们返回超时错误给用户，同时关闭连接，以防止三路握手操作继续进行下去。
+如果select 返回大于0的值，则需要检查套接口描述符是否可写，如果套接口描述符可写，则我们可以通过调用getsockopt来得到套接口上待处理的
+错误（SO_ERROR）。如果连接建立成功，这个错误值将是0；如果建立连接时遇到错误，则这个值是连接错误所对应的errno值（比如：ECONNREFUSED,ETIMEDOUT等）。
+ 
  读取TCP传输的数据采用epoll https://blog.csdn.net/wm_1991/article/details/49226117
  
 一个流可以看做是文件，socket,pipe等可以进行I/O操作的内核对象，不管是文件，套接字，管道都可以看作流；对于I/O的操作，可以通过read,从流中读入数据，通过write，
