@@ -9,4 +9,25 @@ select()函数; https://www.cnblogs.com/gangzilife/p/9766292.html
       继续执行，所以效率较高）方式工作的程序，它能够监视我们需要监视的文件描述符的变化情况读写或
       是异常。
  
- 读取TCP传输的数据采用epoll
+ 读取TCP传输的数据采用epoll https://blog.csdn.net/wm_1991/article/details/49226117
+ 
+一个流可以看做是文件，socket,pipe等可以进行I/O操作的内核对象，不管是文件，套接字，管道都可以看作流；对于I/O的操作，可以通过read,从流中读入数据，通过write，
+我们可以往流中写入数据。在阻塞模式下，内核对于I/O事件的处理是阻塞或者唤醒，而非阻塞模式下则把I/O事件交给其他对象（select和epool）来处理。
+
+sellect代理可以观察许多流的I/O事件，在空闲的时候，就会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞中醒来，程序就会轮询一遍所有的流。
+如果没有I/O事件产生，我们程序就会阻塞在select处，但是依然有个问题，我们从select那里仅仅知道了，有I/O事件发生了，但是不知道是哪几个流（有一个，多个，甚至全部），
+select这种方式只能无差别轮询所有流。找出能读出数据或者写入数据的流，对它们进行操作。
+
+epoll可以理解为event poll(事件轮询)，不同于忙轮询和无差别轮询，epoll会把哪个流发生了怎样的I/O事件通知我们。
+
+epoll_create创建一个epoll对象，一般为对象句柄，epollfd = epoll_create(6);
+epoll_ctl(epoll_add/epoll_del的合体)，往epoll对象中增加、删除一个流的某个事件
+epoll_ctl(epollfd, EPOLL_CTL_ADD, socket,EPOLLIN);//注册缓冲区非空事件，即有数据流入
+epoll_ctl(epollfd, EPOLL_CTL_DEL, socket,EPOLLOUT);//注册缓冲区非满事件，即流可以被写入
+epoll_wait(epollfd,...)等待直到注册的事件发生
+
+在linux的网络编程中，很长时间都使用selcet做事件触发。在新的内核中，有了一种替换的机制，就是epoll
+相对于select，epoll的最大好处是它不会随着监听fd的数目的增长而降低效率。因为在内核中的select实现中，
+它是采用轮询来处理的，轮询的fd数目越多，自然耗时越多。并且在linux/posix_types.h头文件中有这样的声明。
+#define    _FD_SETSIZE 1024
+表示 select最多同时监听1024个fd，当然，可以通过修改头文件再重新编译内核来扩大这个数目
