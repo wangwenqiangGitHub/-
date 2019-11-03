@@ -9,3 +9,38 @@ modbus协议是应用于电子控制器上的一种通用语言，通过此协�
 https://blog.csdn.net/yoyo18520/article/details/79113700
 
 libmodbus函数说明
+
+*********************************************初始化与释放*********************************************
+modbus_t *modbus_new_tcp(const char *ip, int port);
+/*以TCP的方式创建libmodbus实例 char *ip:连接*p地址 int port:连接的IP端口；
+
+modbus_t *modbus_new_rtu(const char *device,int baud, char parity, int data_bit, int stop_bit)
+/*以串口的方式创建libmodbus实例，使用完libmodbus需要释放掉 modbus_t *ctx:modbus实例
+void modbus_free(modbus_t *ctx);
+
+**********************************************读取*****************************************
+int modbus_read_bits(modbus_t *ctx, int addr, int nb, uint8_t *dest)
+/*读取线圈状态，可以读取多个连续线圈的状态 modbus_t *ctx:Modbus实例 int addr:线圈地址 int nb:读取线圈的个数 uint8_t *dest:传出去的状态值。*/
+
+int modbus_read_input_bits(modbus_t *ctx, int addr, int nb, uint8_t *dest)
+/*读取输入状态，可连续多个连续输入的状态 modbus_t *ctx:modbus实例 int add:输入地址 int nb:读取输入的个数 uint8_t *dest:传出的状态值
+
+int modbus_read_input_registers(modbus_t *ctx, int addr, int nb, uint16_t *dest)
+/* 读取输入寄存器的值，可读取多个连续输入寄存器 modbus_t *ctx:Modbus实例 int addr:输入地址 int nb:读取保持寄存器的个数， uint8_t *dest 传出去的值*/、
+
+int modbus_read_registers(modbus_t *ctx, int addr, int nb, uint16_t *dest)
+/*读取保持寄存器的值，可读取连续多个输入保持寄存器的
+modbus_t *ctx:Modbus实例 int addr：输入地址 int nb:读取保持寄存器的个数 uint8_t *dest传出寄存器的值*/
+
+********************************************写入************************************
+/*写入单个线圈的状态 modbus_t *ctx :Modbus实例 int addr:线圈地址 int status:线圈状态
+int modbus_write_bit(modbus_t *ctx, int addr, int status);
+
+/*写多个连续线圈的状态
+int modbus_write_bits()
+
+/写入单个寄存器
+int modbus_write_register()
+
+/写入多个连续寄存器
+int modbus_write_registers()
