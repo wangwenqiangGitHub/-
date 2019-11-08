@@ -114,6 +114,14 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
     return modbus_mapping_new_start_address(
         0, nb_bits, 0, nb_input_bits, 0, nb_registers, 0, nb_input_registers);
 }
+结构体：modbus_mapping_t中的四个数组：
+   uint8_t *tab_bits;
+    uint8_t *tab_input_bits;
+    uint16_t *tab_input_registers;
+    uint16_t *tab_registers;
+来存储数据  存储位，输入位，（保持）寄存器，输入寄存器。
+
+
 
 libmodbus设定的寄存器的起始地址都是从0开始的，这个一般情况下都是可以直接 使用的，
 如果真要实现从非0开始，那就要应用程序里再调用一次modbus_mapping_new_start_address，设定想要的函数即可。
