@@ -1,4 +1,8 @@
 1. https://jingyan.baidu.com/article/d5a880ebf46fc013f147ccf0.html
 2. https://blog.csdn.net/daemon_2017/article/details/80660372
 
-sudo apt-get install gparted安装gparted，然后sudo gparted运行弹出界面操作未分区的内存空间.直接按照默认添加一个即可
+sudo apt-get install gparted安装gparted，然后sudo gparted运行弹出界面操作
+
+首先需要：禁用交换分区然后删掉原来的扩展分区 即删掉linux-swap
+更改完成分区后
+再次分配
