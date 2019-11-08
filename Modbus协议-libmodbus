@@ -9,7 +9,17 @@ modbus协议是应用于电子控制器上的一种通用语言，通过此协�
 https://blog.csdn.net/yoyo18520/article/details/79113700
 https://blog.csdn.net/bijinsong/article/details/79373621
 https://www.imooc.com/article/261780?block_id=tuijian_wz
+https://blog.csdn.net/u012351051/article/details/89194839
+协议中文翻译：
+https://blog.csdn.net/qq_23670601/article/details/82155378#%E6%BA%90%E6%96%87%E6%A1%A3libmodbus
 ****************************************************************************************************
+libmodbus协议栈1：生成modbus库文件：https://blog.csdn.net/u012351051/article/details/89185837
+
+
+
+****************************************************************************************************
+
+
 modbus中寄存器的理解：
 
 modbus支持的功能码：
@@ -69,3 +79,50 @@ int modbus_write_register()
 
 /写入多个连续寄存器
 int modbus_write_registers()
+
+************************************************************************************
+modbus RTU master
+1.初始化modbus指针
+2.设置ID
+3.使用modbus_map_new初始化寄存器，返回一个modbus_mapping_t指针。 工程的数据需要存放到这个指针里
+4.建立联系
+5.调用modbus_receive函数，来轮询判断函数的接口数据。该函数不只是负责接收，还有处理，回复。
+
+结构体：modbus_mapping_t数据结构的理解：
+typedef struct {
+    int nb_bits;
+    int start_bits;
+    int nb_input_bits;
+    int start_input_bits;
+    int nb_input_registers;
+    int start_input_registers;
+    int nb_registers;
+    int start_registers;
+    uint8_t *tab_bits;
+    uint8_t *tab_input_bits;
+    uint16_t *tab_input_registers;
+    uint16_t *tab_registers;
+} modbus_mapping_t
+这个结构体包含：各种寄存器的个数，以及各种寄存器的数组指针，很明显，对于这个结构体的初始化，必然也是使用malloc申请一块专用内存，
+将工程数据刷新存放在这块内存中。
+
+对于初始化寄存器：modbus_mapping_new,内部调用的函数是:
+
+modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
+                                     int nb_registers, int nb_input_registers)
+{
+    return modbus_mapping_new_start_address(
+        0, nb_bits, 0, nb_input_bits, 0, nb_registers, 0, nb_input_registers);
+}
+
+libmodbus设定的寄存器的起始地址都是从0开始的，这个一般情况下都是可以直接 使用的，
+如果真要实现从非0开始，那就要应用程序里再调用一次modbus_mapping_new_start_address，设定想要的函数即可。
+
+建立连接，在主循环中，调用modbus_receive(ctx，query),这个函数不仅仅是负责接口接收，而且还会对数据进行筛选，
+根据主机的需要打包数据，返回相应数据给主机
+
+退出modbus通信后，依然是先关闭 连接，比如关闭串口， 关闭socket。
+
+释放modbus数据指针（内存区域）和modbus寄存器数据指针（内存区域）。
+**********************************************************************************************************************
+
