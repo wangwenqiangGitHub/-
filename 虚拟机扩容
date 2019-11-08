@@ -1,0 +1,4 @@
+1. https://jingyan.baidu.com/article/d5a880ebf46fc013f147ccf0.html
+2. https://blog.csdn.net/daemon_2017/article/details/80660372
+
+sudo apt-get install gparted安装gparted，然后sudo gparted运行弹出界面操作未分区的内存空间.直接按照默认添加一个即可
