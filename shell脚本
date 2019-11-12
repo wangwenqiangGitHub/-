@@ -1,0 +1,67 @@
+1.逐行输出文件内容
+auto_install.sh
+#*******************************************************
+#!/bin/bash
+echo "--------------------------------"
+basepath=$(cd `dirname $0`; pwd)
+echo "basepath = $basepath"   
+
+echo "--------------------------------"
+echo "the following is to be install "
+echo "--------------------------------"
+for i in $(cat $basepath/install_config.txt);
+do  echo $i;done
+echo "--------------------------------"
+
+for i in $(cat $basepath/install_config.txt);
+do sudo dpkg -i  $i ;done
+
+2.install_config.txt
+#****************************************************
+ros-kinetic-virtual-wall-msgs_0.0.0-0xenial_arm64.deb
+ros-kinetic-bzl-robot-bridge_0.0.0-0xenial_arm64.deb
+ros-kinetic-controller-server_1.0.0-0xenial_arm64.deb
+ros-kinetic-realtime_0.0.0-0xenial_arm64.deb
+ros-kinetic-spi-comm_0.0.0-0xenial_arm64.deb
+ros-kinetic-sys-ctrl_0.0.1-0xenial_arm64.deb
+ros-kinetic-agv-task-control_1.0.20191025-0_arm64.deb
+
+3.auto_remove.sh
+#****************************************************
+echo "--------------------------------"
+basepath=$(cd `dirname $0`; pwd)
+echo "basepath = $basepath"   
+
+echo "--------------------------------"
+echo "the following is to be install "
+echo "--------------------------------"
+for i in $(cat $basepath/config.txt);
+do  echo $i;done
+echo "--------------------------------"
+
+for i in $(cat $basepath/config.txt);
+do sudo dpkg -P  $i ;done
+
+4check.sh
+#*********************************************************
+#!/bin/bash
+
+#!/bin/bash
+
+echo "---------------------"
+basepath=$(cd `dirname $0`; pwd)
+echo "basepath = $basepath"
+echo "---------------------"
+
+echo "checking install package..."
+echo "---------------------"
+echo "the following is install:"
+
+for i in $(cat $basepath/config.txt);
+do  dpkg -l |grep -w $i |grep -v tools ;done
+
+echo "---------------------"
+echo "the following is uninstall: "
+for i in $(cat $basepath/config.txt); 
+do dpkg -l |grep -q $i || echo "=== $i is not install！==="; done
+echo "---------------------"
