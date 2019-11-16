@@ -1,0 +1,7 @@
+https://blog.csdn.net/wendellluntan/article/details/72841924
+
+select机制:
+select提供了一种fd_set的数据结构,实际上是一个long的数据结构.每一个数组元素都能与一打开的文件句柄(不管是socket句柄，还是其他文件或命名管道
+或设备句柄)建立联系，建立联系的工作由程序员完成，当调用select()时，由内核根据IO状态修改fe_set的内容，由此来通知执行了select()的进程哪一
+socket或文件可读。
+多端口复用函数select在调用前要首先设置监听的端口数目，FD_ZERO是清空端口集，FD_SET是设置端口集。
