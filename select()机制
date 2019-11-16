@@ -5,3 +5,36 @@ select提供了一种fd_set的数据结构,实际上是一个long的数据结构
 或设备句柄)建立联系，建立联系的工作由程序员完成，当调用select()时，由内核根据IO状态修改fe_set的内容，由此来通知执行了select()的进程哪一
 socket或文件可读。
 多端口复用函数select在调用前要首先设置监听的端口数目，FD_ZERO是清空端口集，FD_SET是设置端口集。
+select()函数常常用在用一个进程监听多个服务器端socket
+有时,select()也被当做函数使用,sleep()函数延时会释放CPU,select()的话,会在占用cpu的情况下延时.
+select()函数主要是建立在fd_set类型的基础上,fd_set是一组文件描述符(fd)的集合,它用一位来表示一个fd(下面会仔细介绍),对于fd_set类型通过下面四个宏
+来操作:
+fd_set set;
+FD_ZERO(&set);/将set清零使集合中不会含有任何fd/
+FD_SET(fd,&set);/将fd加入set集合/
+FD_CLR(fd,&set);/*将fd从set集合中删除*/
+FD_ISSET(fd,&set);/测试fd是否在set集合中*/
+
+select函数的接口比较简单：
+  int select(int nfds,  fd_set* readset,  fd_set* writeset,  fe_set* exceptset,  struct timeval* timeout);
+  功能：
+    测试指定的fd可读？可写？有异常条件待处理？
+  参数:
+   nfds： 需要检查的文件描述字个数(即检查到fd_set的第几位)，数值应该比三组fd_set中所含的最大fd值更大，一般设为三组fd_set中所含的最大fd值加1(如在readset, writeset, exceptset中所含最大的fd为5，则nfds＝6，因为fd是从0开始的 )。设这个值是为了提高效率，使函数不必检查fd_set的所有1024位。
+   readset： 用来检查可读性的一组文件描述字。
+   writeset： 用来检查可写性的一组文件描述字。
+   exceptset： 用来检查是否有异常条件出现的文件描述字。(注：错误不包括在异常条件之内)
+   timeout： 有三种可能：
+   1.  timeout = NULL (阻塞：直到有一个fd位被置为1函数才返回)
+   2.  timeout所指向的结构设为非零时间(等待固定时间：有一个fd位被置为1或者时间耗尽，函数均返回)
+   3.  timeout所指向的结构，时间设为0(非阻塞：函数检查完每一个fd后立即返回)
+   返回值：返回对应位仍然为1的fd的总数。
+   Remark：
+   三组fd_set均将某些fd位置0，只有那些可读，可写以及有异常条件待处理的fd位仍然为1。
+   使用select函数的过程一般是：
+   先调用宏FD_ZERO将指定的fd_set清零，然后调用宏FD_SET将需要测试的fd加入fd_set，接着调用函数select测试fd_set中的所有fd，最后用宏FD_ISSET检查某个fd在函数select调用后，相应位是否仍然为1。
+    
+    
+    
+    
+    
