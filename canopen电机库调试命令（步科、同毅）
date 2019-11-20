@@ -62,6 +62,8 @@ position_angle: [0000,0000]
 real_electricity:
 - 0"
 
+rostopic pub -r 100以100HZ频率发布
+
 8.配置系统的开机启动文件分为：桌面和本地
 
 系统设置开机桌面自启动：
@@ -122,6 +124,12 @@ macaddr=`ifconfig | grep wlan0 | awk '{print $5}' | awk -F: '{print $1 $2 $3 $4 
 if [ "$text" != "ssid=tx2-$macaddr" ];then
 sed -i "s/$text/ssid=tx2-$macaddr/g" /etc/hostapd/hostapd.conf 
 fi
+
+can0下发速度can报文过滤
+candump can0 | grep ‘181’
+
+
+
 
 /etc/init.d/dnsmasq restart
 
