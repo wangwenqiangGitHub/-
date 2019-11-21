@@ -1,0 +1,9 @@
+可以查看从io口输入的信号. 有8个in的IO口,有8个OUT的IO口,共计16个.
+
+1.rostopic echo /agv_din,可以看到从扩展板in读取的IO值.
+
+2.rostopic echo /agv_dout,可以看到发布到spi_demo上的值,即扩展板输出的值
+
+3.rostopic pub -r 100 连续下发多条消息 下发一个稳定的命令流
+
+4.rostopic pub -v -1 /agv_dou 
