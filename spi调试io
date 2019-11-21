@@ -7,3 +7,9 @@
 3.rostopic pub -r 100 连续下发多条消息 下发一个稳定的命令流
 
 4.rostopic pub -v -1 /agv_dou 
+
+5.rostopic pub -v -1 /agv_dout arm_agv_task_control/IOOutputStatus "IO_Mask: 0
+IO_Value: 0" 
+
+"IO_Mask"是指哪一个io口,IO_Value是具体的值, 比如123io口是红蓝黄等,值前三位组成具体值. 
+IO_Mask值范围是0-255 ;IO_Value值范围是0-255;char类型0x00-oxff
