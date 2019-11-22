@@ -1,0 +1,2 @@
+1.打印消息节点关系网路图:rosrun rqt_graph rqt_graph
+2.消息稳定发布:         rostopic pub -r -1 /motor_ctrl
