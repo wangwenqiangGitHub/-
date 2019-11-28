@@ -1,3 +1,6 @@
-1.打印消息节点关系网路图:rosrun rqt_graph rqt_graph
+网址:https://www.jianshu.com/p/52fe947ba467
+1.打印消息节点关系网路图:rosrun rqt_graph rqt_graph或者只输入rqt_graph
 2.消息稳定发布:         rostopic pub -r -1 /motor_ctrl
 3.消息打包bag.rosbag record -o A3bag /motor_ctrl_info /motor_err_stu /motor_driver_info
+4.查看数据实时变化曲线:rosrun rqt_plot rqt_plot 或者只输入rqt_plot 
+5. 
