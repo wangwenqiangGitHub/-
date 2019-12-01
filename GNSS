@@ -1,0 +1,6 @@
+GNSS是全球导航卫星系统,有美国的GPS,苏联的GLONASS,欧盟的GALILEO伽利略卫星导航系统,中国的BDS北斗卫星导航系统
+
+RTK(Real-time Kinematic)实时动态差分法,是一种常用的GPS测量方法.
+INS(Inertial Navigation Systems)惯性导航系统与GPS组合形成惯性导航系统与全球卫星导航系统的组合导航系统
+arhs航向姿态测量系统 
+NAME0183协议:https://blog.csdn.net/st526403649/article/details/54946529
