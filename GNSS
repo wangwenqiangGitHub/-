@@ -33,3 +33,5 @@ xx 从$开始到*之间的所有ASCII码的异或校验
 <CR> 回车符，结束标记
 <LF> 换行符，结束标记
 
+
+无人驾驶中UTM坐标系GPS坐标系相关知识总结:https://blog.csdn.net/zhanghm1995/article/details/88411089
