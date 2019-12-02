@@ -1,0 +1,11 @@
+IMU消息类型:
+https://github.com/ros/common_msgs/blob/jade-devel/sensor_msgs/msg/Imu.msg
+
+IMU程序:
+https://www.cnblogs.com/21207-iHome/p/7832355.html
+
+IMU传感器:
+http://www.syd-dynamics.com/
+
+USB转串口驱动库开源:
+https://www.cnblogs.com/21207-iHome/p/7832355.html
