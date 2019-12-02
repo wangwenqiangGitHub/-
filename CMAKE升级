@@ -1,0 +1,15 @@
+update-alternatives --install /usr/bin/cmake /usr/local/bin/cmake 1 --force
+
+1、在网址 https://cmake.org/files/v3.1/下载   cmake-3.1.0.tar.gz
+
+2、解压
+
+3、执行  ./configure
+
+4、执行 make
+
+5、 执行   sudo make install
+
+6、执行 sudo update-alternatives --install /usr/bin/cmake /usr/local/bin/cmake 1 --force
+
+7、运行  cmake --version   查看版本号
